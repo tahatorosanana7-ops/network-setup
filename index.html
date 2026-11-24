@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>نصب و راه‌اندازی شبکه</title>
+
+<style>
+:root{--bg:#F4F8FB;--fg:#0F172A;--mut:#475569;--card:#fff;--line:#D7E0EA;--ac:#0077B6;--br:#00B4D8;--hi:#FF9F1C;--dk:#0B2545;--md:#13315C;--tint:#E6F4FA;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1220;--fg:#E6EDF6;--mut:#A3B3C8;--card:#131C2E;--line:#243149;--tint:#1a2640;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0B1220;--fg:#E6EDF6;--mut:#A3B3C8;--card:#131C2E;--line:#243149;--tint:#1a2640;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Tahoma,Arial,sans-serif;line-height:1.9;overflow-x:hidden;min-height:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--dk);z-index:30}
+#prog{position:fixed;top:env(safe-area-inset-top,0px);right:0;left:0;height:4px;background:var(--hi);transform:scaleX(0);transform-origin:right;z-index:31}
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.25rem;color:#fff;background:radial-gradient(circle at 70% 20%,var(--md),var(--dk) 70%);position:relative;overflow:hidden}
+.hero .big{font-size:clamp(4.5rem,22vw,8rem);animation:fl 4s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-16px) rotate(4deg)}}
+.hero h1{font-size:clamp(2rem,8.5vw,3.8rem);font-weight:800;margin:.4em 0 .2em;line-height:1.4}
+.hero p{max-width:34rem;color:#CBD5E1;font-size:clamp(1rem,4vw,1.25rem);margin:0}
+.hint{position:absolute;bottom:calc(1.5rem + env(safe-area-inset-bottom,0px));font-size:.95rem;color:var(--br);animation:bn 1.6s infinite}
+@keyframes bn{50%{transform:translateY(8px)}}
+#pin{position:relative;height:420vh;background:var(--dk)}
+.stage{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:#fff;overflow:hidden;background:radial-gradient(circle at 50% 30%,var(--md),var(--dk) 75%);padding:1rem}
+.svg{width:min(92vw,480px);max-height:68svh}
+.svg .t{fill:#E6EDF6;font-size:13px;font-family:Tahoma,Arial,sans-serif}
+.svg .ln{stroke:var(--br);stroke-width:3;stroke-linecap:round}
+.svg .nd{transform-box:fill-box;transform-origin:center}
+#cap{min-height:3.5rem;text-align:center;font-size:clamp(1.05rem,4.4vw,1.4rem);font-weight:600;max-width:30rem;transition:opacity .3s}
+.dots{display:flex;gap:.5rem}.dots i{width:.6rem;height:.6rem;border-radius:50%;background:#ffffff40;transition:.3s}.dots i.on{background:var(--hi);transform:scale(1.4)}
+.win{width:min(92vw,480px);background:#0F172A;border-radius:14px;box-shadow:0 20px 50px #0008;overflow:hidden;position:relative;z-index:2;text-align:left}
+.bar3{display:flex;align-items:center;gap:.4rem;padding:.6rem .8rem;background:#1E293B;color:#94A3B8;font:13px monospace}.bar3 i{width:.7rem;height:.7rem;border-radius:50%;background:#EF4444}.bar3 i:nth-child(2){background:#F59E0B}.bar3 i:nth-child(3){background:#22C55E}.bar3 span{margin-left:auto}
+.win pre{margin:0;padding:1rem;font:clamp(14px,4.2vw,19px)/1.7 'Courier New',monospace;color:#E2E8F0;min-height:8.5em;white-space:pre-wrap}
+.win .k{color:#C4B5FD}.win .s{color:#86EFAC}.win .f{color:#7DD3FC}
+#out{border-top:1px solid #334155;background:#022c22;padding:.5rem 1rem;opacity:0;min-height:5.2rem}
+#out .run{display:inline-block;background:var(--hi);color:#052e16;font:700 13px monospace;padding:.2rem .7rem;border-radius:6px;animation:pl 1.2s infinite}@keyframes pl{50%{transform:scale(1.08)}}
+#out pre{padding:.4rem 0 0;min-height:0;color:#4ADE80;font-weight:700}
+.bdg{position:absolute;left:var(--x);top:var(--y);background:#ffffff18;border:1px solid #ffffff40;color:#fff;padding:.2rem .8rem;border-radius:99px;font:600 14px sans-serif;backdrop-filter:blur(4px);will-change:transform}
+.sec{position:relative;padding:5rem 1.25rem 3rem;max-width:62rem;margin:0 auto;overflow:hidden}
+.sec .art{position:absolute;top:1.5rem;left:-.5rem;font-size:clamp(6rem,30vw,12rem);opacity:.16;will-change:transform;pointer-events:none;user-select:none}
+.in{position:relative}
+.kick{color:var(--ac);font-weight:700;font-size:.95rem}
+:root[data-theme="dark"] .kick{color:var(--br)}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kick{color:var(--br)}}
+h2{font-size:clamp(1.7rem,7vw,2.6rem);font-weight:800;margin:.1em 0 .3em;line-height:1.5}
+.intro{color:var(--mut);font-size:clamp(1rem,3.8vw,1.15rem);max-width:44rem;margin:0 0 1.6rem}
+.rv{opacity:0;transform:translateY(34px);transition:opacity .7s ease var(--d,0ms),transform .7s ease var(--d,0ms)}
+.rv.in{opacity:1;transform:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr));gap:1rem}
+.card{position:relative;text-align:right;font:inherit;color:inherit;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:1rem 1.1rem 1.1rem;cursor:pointer;display:flex;flex-direction:column;gap:.35rem;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.card:not(.rv){transition:transform .25s,box-shadow .25s,border-color .25s,background .25s}
+.card b{font-size:1.1rem;padding-inline-start:2.6rem}
+.card .d{color:var(--mut);font-size:.98rem}
+.num{position:absolute;top:.8rem;inset-inline-start:.9rem;width:2rem;height:2rem;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.95rem;transition:transform .6s}
+.card.rv.in{transition:opacity .7s ease var(--d,0ms),transform .3s,box-shadow .3s,border-color .3s,background .3s}
+.card.on{transform:scale(1.035);border-color:var(--hi);background:var(--tint);box-shadow:0 12px 30px #0002}
+.card.on .num{transform:rotate(360deg) scale(1.2);background:var(--hi);color:#111}
+.card.on .d{color:var(--fg)}
+.ripple{position:absolute;border-radius:50%;background:var(--hi);opacity:.35;transform:scale(0);animation:rp .7s ease-out forwards;pointer-events:none;width:12px;height:12px}
+@keyframes rp{to{transform:scale(28);opacity:0}}
+.chart{background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:1.2rem 1rem 1rem}
+.bars{display:flex;align-items:flex-end;justify-content:space-around;gap:.4rem;height:16rem}
+.bar{flex:1;max-width:5.5rem;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:.25rem;background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.bar .val{font-weight:800;font-size:1.05rem;min-height:1.6rem}
+.bar .colm{width:100%;height:0;border-radius:10px 10px 4px 4px;background:linear-gradient(var(--br),var(--ac));transition:height 1s cubic-bezier(.2,.8,.2,1),filter .3s,transform .3s}
+.chart.in .bar .colm{height:calc(var(--h) * .78)}
+.bar .lb{font-size:.82rem;color:var(--mut);margin-top:.2rem;text-align:center;direction:ltr;min-height:2.2rem}
+.bar.on .colm{filter:brightness(1.15) saturate(1.3);transform:scaleX(1.12);background:linear-gradient(var(--hi),var(--ac))}
+.bar.on .val{color:var(--hi);transform:scale(1.3);transition:.3s}
+.unit{text-align:center;color:var(--mut);font-size:.9rem;margin-top:.3rem}
+.detail{margin-top:.8rem;padding:.9rem 1rem;border-radius:14px;background:var(--tint);min-height:4.2rem;transition:.3s}
+.detail.pop{animation:pp .5s}@keyframes pp{0%{transform:scale(.95);opacity:.3}100%{transform:none;opacity:1}}
+.note{color:var(--mut);font-size:.9rem;margin:.8rem 0 0}
+.codeblk{background:#0F172A;color:#E2E8F0;border-radius:16px;padding:1rem 1.2rem;font:clamp(14px,4vw,18px)/1.7 'Courier New',monospace;overflow-x:auto;margin:0 0 1.2rem;text-align:left}
+.end{text-align:center;padding-bottom:6rem}.end .art{left:50%;translate:-50% 0}.end .intro{margin-inline:auto}.end .card{text-align:center}.end .card b{padding:0}.end .num{position:static;margin:0 auto}
+footer{text-align:center;color:var(--mut);padding:1.5rem 1rem calc(2rem + env(safe-area-inset-bottom,0px));font-size:.9rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style></head><body>
+<div id="prog"></div>
+<header class="hero"><div class="big">🌐</div><h1>نصب و راه‌اندازی شبکه</h1><p>از انتخاب تجهیزات و کابل‌کشی تا تنظیم IP، تست اتصال و امنیت</p><div class="hint">↓ برای شروع، به پایین اسکرول کنید</div></header>
+<section id="pin"><div class="stage"><svg viewBox="0 0 360 420" class="svg" role="img" aria-label="مسیر داده در شبکه"><line id="l0" x1="180" y1="70" x2="180" y2="112" class="ln"/><line id="l1" x1="180" y1="152" x2="180" y2="212" class="ln"/><line id="l2" x1="180" y1="250" x2="50" y2="338" class="ln"/><line id="l3" x1="180" y1="250" x2="140" y2="338" class="ln"/><line id="l4" x1="180" y1="250" x2="220" y2="338" class="ln"/><line id="l5" x1="180" y1="250" x2="310" y2="338" class="ln"/>
+<g id="n0" class="nd"><circle cx="180" cy="42" r="28" fill="#16355f" stroke="#00B4D8" stroke-width="2"/><text x="180" y="52" text-anchor="middle" font-size="28">🌐</text><text x="236" y="46" class="t">اینترنت</text></g>
+<g id="n1" class="nd"><rect x="130" y="112" width="100" height="40" rx="8" fill="#16355f" stroke="#FF9F1C" stroke-width="2"/><text x="180" y="138" text-anchor="middle" class="t">روتر</text></g>
+<g id="n2" class="nd"><rect x="120" y="212" width="120" height="38" rx="8" fill="#16355f" stroke="#00B4D8" stroke-width="2"/><text x="180" y="236" text-anchor="middle" class="t">سوئیچ</text></g><g id="n3" class="nd"><rect x="24" y="338" width="52" height="36" rx="6" fill="#16355f" stroke="#00B4D8" stroke-width="2"/><text x="50" y="364" text-anchor="middle" font-size="22">🖥️</text><text x="50" y="394" text-anchor="middle" class="t">کامپیوتر ۱</text></g><g id="n4" class="nd"><rect x="114" y="338" width="52" height="36" rx="6" fill="#16355f" stroke="#00B4D8" stroke-width="2"/><text x="140" y="364" text-anchor="middle" font-size="22">🖥️</text><text x="140" y="394" text-anchor="middle" class="t">کامپیوتر ۲</text></g><g id="n5" class="nd"><rect x="194" y="338" width="52" height="36" rx="6" fill="#16355f" stroke="#00B4D8" stroke-width="2"/><text x="220" y="364" text-anchor="middle" font-size="22">🖥️</text><text x="220" y="394" text-anchor="middle" class="t">کامپیوتر ۳</text></g><g id="n6" class="nd"><rect x="284" y="338" width="52" height="36" rx="6" fill="#16355f" stroke="#00B4D8" stroke-width="2"/><text x="310" y="364" text-anchor="middle" font-size="22">🖥️</text><text x="310" y="394" text-anchor="middle" class="t">کامپیوتر ۴</text></g>
+<circle id="pk" r="6" fill="#FF9F1C" opacity="0"/><circle id="pk2" r="6" fill="#FFD166" opacity="0"/></svg><div id="cap"></div><div class="dots"><i></i><i></i><i></i><i></i></div></div></section>
+<section class="sec" id="s0"><div class="art" aria-hidden="true">🌐</div><div class="in"><div class="kick rv">بخش ۱</div><h2 class="rv">شبکه کامپیوتری چیست؟</h2><p class="intro rv">شبکه کامپیوتری مجموعه‌ای از دستگاه‌هاست که با کابل یا امواج بی‌سیم به هم وصل می‌شوند تا اطلاعات، فایل و اینترنت را به اشتراک بگذارند. شبکه‌ها را بر اساس گستره‌ی جغرافیایی دسته‌بندی می‌کنند.</p><div class="grid"><button class="card rv" style="--d:0ms" type="button"><span class="num">۱</span><b>PAN (شبکه شخصی)</b><span class="d">چند متر برد دارد؛ مثل اتصال گوشی به هدفون بلوتوث یا ساعت هوشمند.</span></button><button class="card rv" style="--d:70ms" type="button"><span class="num">۲</span><b>LAN (شبکه محلی)</b><span class="d">یک خانه، مدرسه یا ساختمان را پوشش می‌دهد؛ مثل شبکه‌ی آزمایشگاه کامپیوتر.</span></button><button class="card rv" style="--d:140ms" type="button"><span class="num">۳</span><b>MAN (شبکه شهری)</b><span class="d">چند ساختمان یک شهر را به هم وصل می‌کند؛ مثل شبکه‌ی دانشگاه‌ها یا شهرداری.</span></button><button class="card rv" style="--d:210ms" type="button"><span class="num">۴</span><b>WAN (شبکه گسترده)</b><span class="d">شهرها و کشورها را به هم می‌رساند؛ بزرگ‌ترین نمونه‌ی آن اینترنت است.</span></button></div></div></section>
+<section class="sec" id="s1"><div class="art" aria-hidden="true">🖧</div><div class="in"><div class="kick rv">بخش ۲</div><h2 class="rv">تجهیزات اصلی شبکه</h2><p class="intro rv">برای راه‌اندازی یک شبکه‌ی ساده به چند قطعه‌ی کلیدی نیاز داریم که هر کدام وظیفه‌ی مشخصی دارند.</p><div class="grid"><button class="card rv" style="--d:0ms" type="button"><span class="num">۱</span><b>کارت شبکه (NIC)</b><span class="d">کارت یا تراشه‌ای در کامپیوتر که آن را به شبکه وصل می‌کند و آدرس MAC یکتا دارد.</span></button><button class="card rv" style="--d:70ms" type="button"><span class="num">۲</span><b>سوئیچ (Switch)</b><span class="d">دستگاه‌های یک شبکه‌ی محلی را به هم وصل می‌کند و داده را فقط به مقصد درست می‌فرستد.</span></button><button class="card rv" style="--d:140ms" type="button"><span class="num">۳</span><b>روتر (Router)</b><span class="d">شبکه‌ی محلی را به شبکه‌های دیگر و اینترنت وصل می‌کند و مسیر بسته‌ها را تعیین می‌کند.</span></button><button class="card rv" style="--d:210ms" type="button"><span class="num">۴</span><b>مودم (Modem)</b><span class="d">سیگنال خط تلفن، ADSL یا فیبر را به سیگنال قابل فهم برای شبکه تبدیل می‌کند.</span></button><button class="card rv" style="--d:280ms" type="button"><span class="num">۵</span><b>اکسس‌پوینت (AP)</b><span class="d">اتصال بی‌سیم Wi-Fi را برای گوشی و لپ‌تاپ فراهم می‌کند.</span></button><button class="card rv" style="--d:350ms" type="button"><span class="num">۶</span><b>کابل و کانکتور RJ-45</b><span class="d">کابل شبکه با سوکت RJ-45 رایج‌ترین راه اتصال سیمی دستگاه‌هاست.</span></button></div></div></section>
+<section class="sec" id="s2"><div class="art" aria-hidden="true">⚡</div><div class="in"><div class="kick rv">بخش ۳</div><h2 class="rv">انواع کابل و سرعت</h2><p class="intro rv">انتخاب کابل مناسب روی سرعت و فاصله‌ی شبکه اثر مستقیم دارد. روی هر ستون ضربه بزنید تا جزئیاتش را ببینید.</p><div class="chart rv" data-s="2"><div class="bars"><button class="bar" type="button" data-i="0" data-v="0.1" style="--h:9.1%"><span class="val">۰</span><span class="colm"></span><span class="lb">Cat5</span></button><button class="bar" type="button" data-i="1" data-v="1" style="--h:39.4%"><span class="val">۰</span><span class="colm"></span><span class="lb">Cat5e</span></button><button class="bar" type="button" data-i="2" data-v="10" style="--h:69.7%"><span class="val">۰</span><span class="colm"></span><span class="lb">Cat6</span></button><button class="bar" type="button" data-i="3" data-v="10" style="--h:69.7%"><span class="val">۰</span><span class="colm"></span><span class="lb">Cat6a</span></button><button class="bar" type="button" data-i="4" data-v="100" style="--h:100.0%"><span class="val">۰</span><span class="colm"></span><span class="lb">فیبر نوری</span></button></div><div class="unit">گیگابیت بر ثانیه</div><div class="detail" id="det2">روی یکی از ستون‌ها ضربه بزنید 👆</div><p class="note">سرعت‌ها حداکثر نظری هستند و در عمل به تجهیزات و کیفیت نصب بستگی دارند. نمودار در مقیاس لگاریتمی رسم شده است.</p></div></div></section>
+<section class="sec" id="s3"><div class="art" aria-hidden="true">🕸️</div><div class="in"><div class="kick rv">بخش ۴</div><h2 class="rv">توپولوژی‌های شبکه</h2><p class="intro rv">توپولوژی یعنی شکل چیدمان و اتصال دستگاه‌ها به یکدیگر. انتخاب آن روی هزینه و پایداری شبکه اثر می‌گذارد.</p><div class="grid"><button class="card rv" style="--d:0ms" type="button"><span class="num">۱</span><b>باس (Bus)</b><span class="d">همه‌ی دستگاه‌ها به یک کابل مشترک وصل‌اند؛ ارزان است ولی با قطع کابل کل شبکه مختل می‌شود.</span></button><button class="card rv" style="--d:70ms" type="button"><span class="num">۲</span><b>ستاره (Star)</b><span class="d">هر دستگاه با کابل جدا به سوئیچ مرکزی وصل است؛ رایج‌ترین شکل و عیب‌یابی آسان.</span></button><button class="card rv" style="--d:140ms" type="button"><span class="num">۳</span><b>حلقه (Ring)</b><span class="d">دستگاه‌ها در یک حلقه‌ی بسته به هم وصل‌اند و داده در یک جهت می‌چرخد.</span></button><button class="card rv" style="--d:210ms" type="button"><span class="num">۴</span><b>مش (Mesh)</b><span class="d">هر دستگاه با چند دستگاه دیگر ارتباط دارد؛ بسیار پایدار ولی گران.</span></button><button class="card rv" style="--d:280ms" type="button"><span class="num">۵</span><b>درختی (Tree)</b><span class="d">ترکیب چند ستاره به‌صورت سلسله‌مراتبی؛ مناسب ساختمان‌های بزرگ.</span></button></div></div></section>
+<section class="sec" id="s4"><div class="art" aria-hidden="true">🔢</div><div class="in"><div class="kick rv">بخش ۵</div><h2 class="rv">آدرس‌دهی و تنظیمات IP</h2><p class="intro rv">هر دستگاه برای ارتباط در شبکه به یک آدرس یکتا نیاز دارد. این آدرس‌ها را می‌توان دستی یا خودکار تنظیم کرد.</p><div class="grid"><button class="card rv" style="--d:0ms" type="button"><span class="num">۱</span><b>آدرس IPv4</b><span class="d">چهار عدد بین ۰ تا ۲۵۵ که با نقطه جدا می‌شوند؛ مثل 192.168.1.10</span></button><button class="card rv" style="--d:70ms" type="button"><span class="num">۲</span><b>ماسک زیرشبکه</b><span class="d">مثل 255.255.255.0 مشخص می‌کند کدام بخش آدرس مربوط به شبکه و کدام مربوط به دستگاه است.</span></button><button class="card rv" style="--d:140ms" type="button"><span class="num">۳</span><b>گیت‌وی پیش‌فرض</b><span class="d">آدرس روتری که بسته‌های خارج از شبکه‌ی محلی را به مقصد می‌رساند؛ مثل 192.168.1.1</span></button><button class="card rv" style="--d:210ms" type="button"><span class="num">۴</span><b>DNS</b><span class="d">نام سایت‌ها مثل example.com را به آدرس IP تبدیل می‌کند.</span></button><button class="card rv" style="--d:280ms" type="button"><span class="num">۵</span><b>DHCP</b><span class="d">آدرس IP و تنظیمات را خودکار به هر دستگاه می‌دهد و از تداخل آدرس‌ها جلوگیری می‌کند.</span></button><button class="card rv" style="--d:350ms" type="button"><span class="num">۶</span><b>آدرس‌های خصوصی</b><span class="d">بازه‌هایی مثل 192.168.x.x و 10.x.x.x فقط داخل شبکه‌ی محلی استفاده می‌شوند.</span></button></div></div></section>
+<section class="sec" id="s5"><div class="art" aria-hidden="true">🛠️</div><div class="in"><div class="kick rv">بخش ۶</div><h2 class="rv">مراحل نصب و راه‌اندازی</h2><p class="intro rv">نصب شبکه را می‌توان در شش مرحله‌ی منظم انجام داد؛ رعایت ترتیب از خطاهای بعدی جلوگیری می‌کند.</p><div class="grid"><button class="card rv" style="--d:0ms" type="button"><span class="num">۱</span><b>برنامه‌ریزی</b><span class="d">تعداد دستگاه‌ها، محل سوئیچ و روتر و مسیر کابل‌ها را روی نقشه مشخص کنید.</span></button><button class="card rv" style="--d:70ms" type="button"><span class="num">۲</span><b>کابل‌کشی و کریمپ</b><span class="d">سوکت RJ-45 را با ترتیب رنگ استاندارد T568B و ابزار کریمپ به کابل وصل کنید.</span></button><button class="card rv" style="--d:140ms" type="button"><span class="num">۳</span><b>نصب تجهیزات</b><span class="d">سوئیچ و روتر را در جای مناسب بگذارید، کابل‌ها را وصل و دستگاه‌ها را روشن کنید.</span></button><button class="card rv" style="--d:210ms" type="button"><span class="num">۴</span><b>تنظیم آدرس IP</b><span class="d">DHCP را روی روتر فعال کنید یا IP، ماسک و گیت‌وی را دستی وارد کنید.</span></button><button class="card rv" style="--d:280ms" type="button"><span class="num">۵</span><b>تست اتصال</b><span class="d">با دستور ping از اتصال دستگاه‌ها به یکدیگر و به اینترنت مطمئن شوید.</span></button><button class="card rv" style="--d:350ms" type="button"><span class="num">۶</span><b>مستندسازی و امنیت</b><span class="d">رمز پیش‌فرض را عوض کنید، تنظیمات را یادداشت کنید و کابل‌ها را برچسب بزنید.</span></button></div></div></section>
+<section class="sec" id="s6"><div class="art" aria-hidden="true">🛡️</div><div class="in"><div class="kick rv">بخش ۷</div><h2 class="rv">عیب‌یابی و امنیت</h2><p class="intro rv">بعد از نصب باید از سلامت شبکه مطمئن شد و آن را در برابر نفوذ محافظت کرد. چند دستور ساده‌ی ویندوز برای این کار کافی است.</p><div class="grid"><button class="card rv" style="--d:0ms" type="button"><span class="num">۱</span><b>ping</b><span class="d">با فرستادن چند بسته به یک آدرس، سالم بودن اتصال و زمان پاسخ را نشان می‌دهد.</span></button><button class="card rv" style="--d:70ms" type="button"><span class="num">۲</span><b>ipconfig</b><span class="d">آدرس IP، ماسک و گیت‌وی کامپیوتر را در ویندوز نمایش می‌دهد.</span></button><button class="card rv" style="--d:140ms" type="button"><span class="num">۳</span><b>tracert</b><span class="d">مسیر عبور بسته‌ها تا مقصد را مرحله‌به‌مرحله نشان می‌دهد تا محل مشکل پیدا شود.</span></button><button class="card rv" style="--d:210ms" type="button"><span class="num">۴</span><b>nslookup</b><span class="d">درستی کار DNS را بررسی می‌کند و آدرس IP یک نام را نشان می‌دهد.</span></button><button class="card rv" style="--d:280ms" type="button"><span class="num">۵</span><b>رمزنگاری Wi-Fi</b><span class="d">از WPA2 یا WPA3 با رمز قوی استفاده کنید و WEP را کنار بگذارید.</span></button><button class="card rv" style="--d:350ms" type="button"><span class="num">۶</span><b>فایروال و به‌روزرسانی</b><span class="d">فایروال را فعال نگه دارید و نرم‌افزار داخلی (firmware) روتر را به‌روز کنید.</span></button></div></div></section>
+<section class="sec end" id="s7"><div class="art" aria-hidden="true">🏁</div><div class="in"><div class="kick rv">بخش ۸</div><h2 class="rv">نتیجه‌گیری</h2><p class="intro rv">نصب درست شبکه ترکیبی از انتخاب تجهیزات مناسب، کابل‌کشی اصولی، تنظیم صحیح IP و رعایت امنیت است.</p><div class="grid"><button class="card rv" style="--d:0ms" type="button"><span class="num">۱</span><b>برنامه‌ریزی مهم است</b><span class="d">نقشه‌ی شبکه جلوی هزینه و دوباره‌کاری را می‌گیرد.</span></button><button class="card rv" style="--d:70ms" type="button"><span class="num">۲</span><b>تست را فراموش نکنید</b><span class="d">بعد از نصب همیشه اتصال را با ping و tracert بررسی کنید.</span></button><button class="card rv" style="--d:140ms" type="button"><span class="num">۳</span><b>امنیت از روز اول</b><span class="d">رمز قوی و به‌روزرسانی، شبکه را در برابر نفوذ محافظت می‌کند.</span></button></div></div></section>
+<footer>نصب و راه‌اندازی شبکه</footer>
+<script>
+var CAPS=["اینترنت از طریق مودم و روتر وارد شبکه می‌شود","روتر به سوئیچ وصل می‌شود","سوئیچ هر کامپیوتر را با یک کابل جداگانه وصل می‌کند","بسته‌های داده در مسیر درست بین دستگاه‌ها حرکت می‌کنند"],SCENE="network",CS=null;
+var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var fmt=new Intl.NumberFormat('fa-IR',{maximumFractionDigits:1});
+function cl(x){return Math.max(0,Math.min(1,x))}
+function T(p,a,b){return cl((p-a)/(b-a))}
+var pin=$('#pin'),cap=$('#cap'),dots=$$('.dots i'),lastCap=-1;
+function setCap(i){if(i===lastCap)return;lastCap=i;cap.style.opacity=0;setTimeout(function(){cap.textContent=CAPS[i];cap.style.opacity=1},150);dots.forEach(function(d,k){d.classList.toggle('on',k<=i)})}
+function show(el,t){if(!el)return;el.style.opacity=t;el.style.transform='scale('+(.6+.4*t)+')'}
+function draw(el,t){if(!el)return;var L=el.getTotalLength?el.getTotalLength():60;el.style.strokeDasharray=L;el.style.strokeDashoffset=L*(1-t)}
+var pcx=[50,140,220,310];
+function pointAt(k,u){var P=[[180,42],[180,132],[180,231],[pcx[k],356]];var seg=u*3,i=Math.min(2,Math.floor(seg)),f=seg-i;return [P[i][0]+(P[i+1][0]-P[i][0])*f,P[i][1]+(P[i+1][1]-P[i][1])*f]}
+function sceneNet(p){
+  show($('#n0'),T(p,0,.1));draw($('#l0'),T(p,.1,.2));show($('#n1'),T(p,.15,.25));draw($('#l1'),T(p,.25,.35));show($('#n2'),T(p,.3,.4));
+  for(var k=0;k<4;k++){draw($('#l'+(k+2)),T(p,.4+k*.05,.5+k*.05));show($('#n'+(k+3)),T(p,.45+k*.05,.55+k*.05))}
+  var pk=$('#pk'),pk2=$('#pk2');
+  if(p>.72){var t=(p-.72)*8,k=Math.floor(t)%4,u=t-Math.floor(t),a=pointAt(k,u),k2=(k+2)%4,b=pointAt(k2,u);
+    pk.setAttribute('cx',a[0]);pk.setAttribute('cy',a[1]);pk.style.opacity=1;pk2.setAttribute('cx',b[0]);pk2.setAttribute('cy',b[1]);pk2.style.opacity=1}
+  else{pk.style.opacity=0;pk2.style.opacity=0}
+}
+function hl(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\b(for|in|if|else|while|def|return)\b/g,'<span class="k">$1</span>').replace(/\b(range|print)\b/g,'<span class="f">$1</span>').replace(/("[^"]*")/g,'<span class="s">$1</span>')}
+function sceneCode(p){
+  var all=CS.lines.join('\n'),n=Math.floor(T(p,.04,.62)*all.length);
+  $('#code').innerHTML=hl(all.slice(0,n))+(p<.9?'<span style="opacity:.8">▌</span>':'');
+  var o=T(p,.66,.76);$('#out').style.opacity=o;
+  $('#outt').textContent=CS.output.slice(0,Math.floor(T(p,.8,.92)*CS.output.length));
+  $$('.bdg').forEach(function(b,k){b.style.transform='translate('+Math.sin(p*6+k)*14+'px,'+(p*(k%2?1:-1)*140)+'px) rotate('+(p*60*(k%2?1:-1))+'deg)'})
+}
+function onScroll(){
+  var h=document.documentElement,sc=window.scrollY||h.scrollTop;
+  $('#prog').style.transform='scaleX('+cl(sc/Math.max(1,h.scrollHeight-innerHeight))+')';
+  var r=pin.getBoundingClientRect(),p=cl(-r.top/Math.max(1,r.height-innerHeight));
+  if(r.bottom>-50&&r.top<innerHeight+50){setCap(Math.min(3,Math.floor(p*4)));(SCENE==='network'?sceneNet:sceneCode)(p)}
+  $$('.art').forEach(function(a){var b=a.getBoundingClientRect(),c=(b.top+b.height/2-innerHeight/2)/innerHeight;
+    a.style.transform='translateY('+(c*-70)+'px) rotate('+(c*22)+'deg) scale('+(1.1-Math.min(1,Math.abs(c))*.3)+')'})
+}
+var tk=false;addEventListener('scroll',function(){if(!tk){tk=true;requestAnimationFrame(function(){tk=false;onScroll()})}},{passive:true});addEventListener('resize',onScroll);
+function count(el,v,ms){var s=null;function f(t){if(s===null)s=t;var k=cl((t-s)/ms),e=1-Math.pow(1-k,3);el.textContent=fmt.format(v*e);if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){
+  e.target.classList.toggle('in',e.isIntersecting);
+  if(e.target.classList.contains('chart')&&e.isIntersecting){$$('.bar',e.target).forEach(function(b,i){setTimeout(function(){count($('.val',b),+b.dataset.v,900)},i*120)})}
+})},{threshold:.15});
+$$('.rv,.chart').forEach(function(e){io.observe(e)});
+$$('.card').forEach(function(c){c.addEventListener('click',function(ev){
+  var was=c.classList.contains('on');$$('.card.on',c.parentNode).forEach(function(x){x.classList.remove('on')});
+  if(!was){c.classList.add('on');var r=c.getBoundingClientRect(),s=document.createElement('span');s.className='ripple';s.style.left=(ev.clientX-r.left-6)+'px';s.style.top=(ev.clientY-r.top-6)+'px';c.appendChild(s);setTimeout(function(){s.remove()},800)}})});
+var ITEMS=[null,null,{"u":"گیگابیت بر ثانیه","i":[["Cat5",0.1,"حداکثر ۱۰۰ مگابیت بر ثانیه؛ قدیمی است و امروز کمتر استفاده می‌شود."],["Cat5e",1,"تا ۱ گیگابیت بر ثانیه در فاصله‌ی ۱۰۰ متر؛ رایج در خانه و مدرسه."],["Cat6",10,"تا ۱۰ گیگابیت بر ثانیه، ولی فقط در فاصله‌ی کوتاه (حدود ۵۵ متر)."],["Cat6a",10,"۱۰ گیگابیت بر ثانیه تا ۱۰۰ متر؛ عایق‌بندی بهتر و مناسب مراکز داده."],["فیبر نوری",100,"با نور داده می‌فرستد؛ سرعت ۱۰۰ گیگابیت و بالاتر و فاصله‌ی چند کیلومتر."]]},null,null,null,null,null];
+$$('.chart').forEach(function(ch){var si=+ch.dataset.s,d=ITEMS[si];$$('.bar',ch).forEach(function(b){b.addEventListener('click',function(){
+  $$('.bar.on',ch).forEach(function(x){x.classList.remove('on')});b.classList.add('on');
+  var i=+b.dataset.i,it=d.i[i];count($('.val',b),it[1],700);
+  var det=$('#det'+si);det.innerHTML='<b>'+it[0]+'</b> — '+fmt.format(it[1])+' '+d.u+'<br>'+it[2];det.classList.remove('pop');void det.offsetWidth;det.classList.add('pop')})})});
+onScroll();setCap(0);
+</script></body></html>
